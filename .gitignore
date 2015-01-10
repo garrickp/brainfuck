@@ -1,0 +1,4 @@
+bin
+*.c
+*.out
+*.swp

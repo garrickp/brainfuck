@@ -1,0 +1,11 @@
+Brainfuck  Meaning                                                  Java
+ 
++          Increment the cell currently pointed at                  mem[p] += 1;
+-          Decrement the cell currently pointer at                  mem[p] -= 1;
+>          Move pointer 1 cell rightwards                           p += 1;
+<          Move pointer 1 cell leftwards                            p -= 1;
+.          Output the cell currently pointed at                     System.out.write(mem[p]);
+,          Read a byte of input into the cell currently pointed at  System.in.read(mem, p, 1);
+[          If the current cell is non-zero then enter a loop        while (mem[p]!=0) {
+]          If the current cell is non-zero then keep looping        }
+
