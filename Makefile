@@ -1,17 +1,25 @@
+LIBS = fbp
 PROJECTS = brainfuck
-BINS = $(patsubst %, bin/%, $(PROJECTS))
+BINDIR = $(shell pwd)/bin
+PKGDIR = $(shell pwd)/pkg/linux_amd64
+
+PKGS = $(patsubst %, $(PKGDIR)/%.a, $(LIBS))
+BINS = $(patsubst %, $(BINDIR)/%, $(PROJECTS))
+
+GOPATH = $(shell pwd)
+GOBIN = $(BINDIR)
 
 GO = /usr/local/go/bin/go
 GOFMT = /usr/local/go/bin/gofmt
 RM = /bin/rm
 
-GOPATH = $(shell pwd)
-GOBIN = $(shell pwd)/bin
+all: ${PKGS} ${BINS}
 
-all: ${BINS}
+${PKGDIR}/fbp.a: src/fbp/*go
+	env GOPATH=${GOPATH} GOBIN=${GOBIN} ${GO} install fbp
 
-bin/%: src/%/*.go
-	env GOPATH=${GOPATH} GOBIN=${GOBIN} ${GO} install $^
+${BINDIR}/brainfuck: src/brainfuck/*.go ${PKGS}
+	env GOPATH=${GOPATH} GOBIN=${GOBIN} ${GO} install brainfuck
 
 test:
 	env GOPATH=${GOPATH} ${GO} test ${PROJECTS}
@@ -20,6 +28,6 @@ format:
 	${GOFMT} -w src/**/*.go
 
 clean:
-	${RM} ${BINS}
+	${RM} ${BINS} ${PKGS}
 
 .PHONY: all clean test

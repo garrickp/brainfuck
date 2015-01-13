@@ -1,4 +1,6 @@
 bin
+progs
+pkg
 *.c
 *.out
 *.swp
